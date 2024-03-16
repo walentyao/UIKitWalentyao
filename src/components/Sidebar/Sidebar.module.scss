@@ -1,0 +1,48 @@
+.sidebar {
+    margin: 20px;
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #e8def8;
+    border-radius: 5px;
+
+    width: 220px;
+
+    &__title {
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    &__links {
+        list-style-type: none;
+        margin-top: 10px;
+    }
+
+    &__link {
+        margin-top: 5px;
+    }
+}
+.link {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+
+    display: block;
+
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+        background: var(--color-light-purple-200);
+    }
+
+    &_active {
+        background: var(--color-light-purple-200);
+    }
+}

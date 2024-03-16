@@ -1,0 +1,93 @@
+.inputText {
+    --color-legend: var(--color-neutral-rgb-50);
+    --color-border: var(--color-neutral-rgb-50);
+    --width-border: 1px;
+
+    position: relative;
+    border: var(--width-border) solid rgb(var(--color-border));
+    border-radius: 4px;
+    padding: 10px 15px;
+    padding-right: 30px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        --color-legend: var(--color-primary-rgb-40);
+        --color-border: var(--color-primary-rgb-40);
+    }
+
+    &__active {
+        --color-legend: var(--color-primary-rgb-40);
+        --color-border: var(--color-primary-rgb-40);
+        --width-border: 2px;
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 4px;
+    }
+
+    &__legend {
+        max-width: 0px;
+        height: 1px;
+        overflow: hidden;
+        font-size: 13px;
+
+        &_active {
+            max-width: max-content;
+            padding: 0 5px;
+        }
+    }
+
+    &__label {
+        font-size: 16px;
+        transition: all 0.1s ease;
+        color: rgb(var(--color-legend));
+
+        &_legend {
+            position: absolute;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            transform: translate(20px, -50%);
+            font-size: 13px;
+        }
+
+        &_placehplder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translate(20px, 50%);
+            z-index: 100;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(-5px, 50%);
+    }
+
+    &__supportText {
+        font-size: 13px;
+        color: rgb(var(--color-neutral-rgb-50));
+        padding-left: 20px;
+    }
+}
+
+.icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    color: rgb(var(--color-neutral-rgb-50));
+}
+
+.input {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(var(--color-neutral-rgb-10));
+    border: none;
+    background: transparent;
+    outline: none;
+}
