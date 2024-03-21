@@ -1,4 +1,4 @@
-import { IRoute } from "../interfaces/router.interface";
+import { IRoute } from '../interfaces/router.interface';
 
 export const routes: IRoute[] = [
     {
@@ -8,5 +8,9 @@ export const routes: IRoute[] = [
     {
         path: '/input',
         name: 'Input',
+    },
+    {
+        path: '/calendar',
+        name: 'Calendar',
     },
 ];

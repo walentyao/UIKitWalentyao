@@ -40,7 +40,7 @@ export const InputText = ({
         [value],
     );
     return (
-        <div className={classes.inputText__wrapper}>
+        <div className={classes.wrapper}>
             <fieldset
                 className={classNames(classes.inputText, {
                     [classes.inputText__active]: labelOnLegend,
