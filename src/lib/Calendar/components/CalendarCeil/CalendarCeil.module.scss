@@ -1,0 +1,34 @@
+.ceil{
+  min-height: 70px;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  border-top: 2px solid rgb(var(--color-neutral-rgb-90));
+
+  margin: 0 5px;
+  padding: 10px;
+
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+
+  color: rgb(var(--color-primary-rgb-40));
+  font-size: 15px;
+
+  &:hover{
+    background: rgb(var(--color-primary-rgb-95));
+  }
+
+  &__other{
+    color: rgb(var(--color-neutral-rgb-90));
+  }
+
+  &__current{
+    background: rgb(var(--color-primary-rgb-80));
+  }
+}
+
+.dayNumber{
+  display: flex;
+  justify-content: flex-end;
+}

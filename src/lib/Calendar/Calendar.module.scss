@@ -1,0 +1,17 @@
+.calendar {
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        width: 100%;
+        background: rgb(var(--color-primary-rgb-100));
+        padding: 20px;
+    }
+
+    &__table{
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+
+    }
+}
