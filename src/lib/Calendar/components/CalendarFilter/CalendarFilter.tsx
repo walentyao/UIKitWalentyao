@@ -1,30 +1,26 @@
 import classes from './CalendarFilter.module.scss';
-import { IOption } from '../../../../interfaces/types.ts';
+import { useCalendarFilter } from '../../hooks/useCalendarFilter.ts';
+import { ICalendarFilter } from '../../types/filter.ts';
+
 interface CalendarFilterProps {
-    years: IOption[];
-    months: IOption[];
-    selectedYear: number;
-    selectedMonth: number;
-    setYear?: (year: number) => void;
-    setMonth?: (month: number) => void;
+    filter: ICalendarFilter;
+    setFilter?: (filter: { year: number; month: number }) => void;
 }
-export const CalendarFilter = ({
-    years,
-    months,
-    selectedYear,
-    selectedMonth,
-    setYear,
-    setMonth,
-}: CalendarFilterProps) => {
+export const CalendarFilter = ({ filter, setFilter }: CalendarFilterProps) => {
+    const { yearsInterval, monthsInterval } = useCalendarFilter({
+        year: filter.year,
+        month: filter.month,
+    });
+
     return (
         <div className={classes.filter}>
             <select
                 name="years"
                 id="years"
-                value={selectedYear}
-                onChange={(event) => setYear?.(Number(event.target.value))}
+                value={filter.year}
+                onChange={(event) => setFilter?.({ ...filter, year: Number(event.target.value) })}
             >
-                {years.map((year) => {
+                {yearsInterval.map((year) => {
                     return (
                         <option
                             value={year.value}
@@ -38,10 +34,10 @@ export const CalendarFilter = ({
             <select
                 name="months"
                 id="months"
-                value={selectedMonth}
-                onChange={(event) => setMonth?.(Number(event.target.value))}
+                value={filter.month}
+                onChange={(event) => setFilter?.({ ...filter, month: Number(event.target.value) })}
             >
-                {months.map((month) => {
+                {monthsInterval.map((month) => {
                     return (
                         <option
                             value={month.value}

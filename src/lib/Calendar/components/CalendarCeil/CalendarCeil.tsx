@@ -1,33 +1,30 @@
-import React from 'react';
+import React, { memo } from 'react';
 import classes from './CalendarCeil.module.scss';
 import classNames from 'classnames';
-import { createDate } from '../../../../utils/date';
+import { StyleCeil } from '../../types/ceil.ts';
 
-type StateCeil = 'selected' | 'current' | 'other' | 'default';
 interface CalendarCeilProps {
     children?: React.ReactNode;
-    day: ReturnType<typeof createDate>;
-    stateCeil?: StateCeil;
-    onClickCeil?: (day: ReturnType<typeof createDate>) => void;
+    day: number;
+    onClick?: (day: number) => void;
+    styleCeil?: StyleCeil;
 }
 
-export const CalendarCeil = ({
-    children,
-    day,
-    onClickCeil,
-    stateCeil = 'default',
-}: CalendarCeilProps) => {
-    const classesCeil = classNames(classes.ceil, classes[`ceil__${stateCeil}`]);
+export const CalendarCeil = memo(({ children, day, onClick, styleCeil }: CalendarCeilProps) => {
+    const classesCeil = classNames(classes.ceil, classes[`ceil__${styleCeil}`]);
 
+    // console.log('render ceil', day);
     return (
         <td
             className={classes.ceil__wrapper}
-            onClick={() => onClickCeil?.(day)}
+            onClick={() => onClick?.(day)}
         >
             <div className={classesCeil}>
-                <div className={classes.dayNumber}>{day.dayNumber}</div>
+                <div className={classes.dayNumber}>{day}</div>
                 {children}
             </div>
         </td>
     );
-};
+});
+
+CalendarCeil.displayName = 'CalendarCeil';

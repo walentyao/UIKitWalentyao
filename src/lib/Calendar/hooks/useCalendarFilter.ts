@@ -3,36 +3,31 @@ import { getMonthesNames, getYearsInterval } from '../../../utils/date';
 import { IOption } from '../../../interfaces/types.ts';
 
 export interface useCalendarFilterParams {
-    date?: Date;
+    year: number;
+    month: number;
 }
-export const useCalendarFilter = ({ date = new Date() }: useCalendarFilterParams) => {
-    const [selectedYear, setSelectedYear] = useState<number>(date.getFullYear());
-    const [selectedMonth, setSelectedMonth] = useState<number>(date.getMonth() + 1);
+export const useCalendarFilter = ({ year }: useCalendarFilterParams) => {
     const monthsInterval: IOption[] = useMemo(() => {
         return getMonthesNames().map((month) => ({
-            value: month.monthIndex + 1,
+            value: month.monthIndex,
             label: month.month,
         }));
     }, []);
     const [yearsInterval, setYearsInterval] = useState<IOption[]>(
-        getYearsInterval(selectedYear).map((year) => ({ value: year, label: year.toString() })),
+        getYearsInterval(year).map((year) => ({ value: year, label: year.toString() })),
     );
 
     useEffect(() => {
-        if (selectedYear !== selectedYear)
+        if (year !== year)
             setYearsInterval(
-                getYearsInterval(selectedYear).map((year) => ({
+                getYearsInterval(year).map((year) => ({
                     value: year,
                     label: year.toString(),
                 })),
             );
-    }, [selectedYear]);
+    }, [year]);
 
     return {
-        selectedYear,
-        selectedMonth,
-        setSelectedYear,
-        setSelectedMonth,
         yearsInterval,
         monthsInterval,
     };

@@ -1,5 +1,5 @@
 .ceil{
-  min-height: 70px;
+  height: 100px;
 
   display: flex;
   flex-direction: column;
@@ -9,7 +9,8 @@
   margin: 0 5px;
   padding: 10px;
 
-  transition: background-color 0.3s ease;
+  //animation: ease-in 0.3s appearance-ceil;
+  transition: background-color 0.2s ease;
   cursor: pointer;
 
   color: rgb(var(--color-primary-rgb-40));
@@ -26,9 +27,22 @@
   &__current{
     background: rgb(var(--color-primary-rgb-80));
   }
+
+  &__selected{
+    background: rgb(var(--color-primary-rgb-80));
+  }
 }
 
 .dayNumber{
   display: flex;
   justify-content: flex-end;
+}
+
+@keyframes appearance-ceil {
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
 }

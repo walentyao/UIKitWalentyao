@@ -38,3 +38,5 @@ export const createDate = (params?: CreateDateParams) => {
         week,
     };
 };
+
+export type CalendarDate = ReturnType<typeof createDate>;

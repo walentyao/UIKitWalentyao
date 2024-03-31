@@ -1,41 +1,38 @@
 import { useMemo } from 'react';
-import { createDate, createMonth, getMonthNumberOfDays } from '../../../utils/date';
+import { createMonth, getMonthNumberOfDays } from '../../../utils/date';
+import { ICalendarFilter } from '../types/filter.ts';
+import { CalendarDay } from '../types/calendar.ts';
 
-export type CalendarWeek = ReturnType<typeof createDate>;
+export type CalendarWeek = CalendarDay[];
 
-export type CalendarMonthWithWeek = CalendarWeek[][];
+export type CalendarMonthWithWeek = CalendarWeek[];
 export interface UseCalendarMonthParams {
-    selectedMonthNumber: number;
-    selectedYearNumber: number;
+    filter: ICalendarFilter;
     firstWeekDayNumber: number;
     locale?: string;
 }
 const DAYS_IN_WEEK = 7;
 export const useCalendarDays = ({
-    selectedMonthNumber,
-    selectedYearNumber,
+    filter,
     firstWeekDayNumber,
     locale = 'default',
 }: UseCalendarMonthParams) => {
     const selectedMonth = useMemo(() => {
-        return createMonth({ date: new Date(selectedYearNumber, selectedMonthNumber), locale });
-    }, [selectedYearNumber, selectedMonthNumber, locale]);
+        return createMonth({ date: new Date(filter.year, filter.month), locale });
+    }, [filter.year, filter.month, locale]);
 
     const days = useMemo(() => selectedMonth.createMonthDays(), [selectedMonth]);
 
     const calendarDays = useMemo(() => {
-        const monthNumberOfDays = getMonthNumberOfDays(
-            selectedMonth.monthIndex,
-            selectedYearNumber,
-        );
+        const monthNumberOfDays = getMonthNumberOfDays(selectedMonth.monthIndex, filter.year);
 
         const prevMonthDays = createMonth({
-            date: new Date(selectedYearNumber, selectedMonth.monthIndex - 1),
+            date: new Date(filter.year, selectedMonth.monthIndex - 1),
             locale,
         }).createMonthDays();
 
         const nextMonthDays = createMonth({
-            date: new Date(selectedYearNumber, selectedMonth.monthIndex + 1),
+            date: new Date(filter.year, selectedMonth.monthIndex + 1),
             locale,
         }).createMonthDays();
 
@@ -71,13 +68,13 @@ export const useCalendarDays = ({
         }
 
         return result;
-    }, [selectedMonth, selectedYearNumber, days, firstWeekDayNumber, locale]);
+    }, [selectedMonth, filter.year, days, firstWeekDayNumber, locale]);
 
     const calendarMonthWithWeek = useMemo<CalendarMonthWithWeek>(() => {
         const calendar: CalendarMonthWithWeek = [];
 
         for (let weekIndex = 0; weekIndex < calendarDays.length / DAYS_IN_WEEK; weekIndex++) {
-            const week: CalendarWeek[] = [];
+            const week: CalendarWeek = [];
             for (
                 let dayIndex = weekIndex * DAYS_IN_WEEK;
                 dayIndex < (weekIndex + 1) * DAYS_IN_WEEK && dayIndex < calendarDays.length;
