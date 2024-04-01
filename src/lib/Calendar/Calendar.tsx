@@ -4,7 +4,7 @@ import { CalendarHeader } from './components/CalendarHeader/CalendarHeader.tsx';
 import { useCalendarDays } from './hooks/useCalendarDays.ts';
 import { CalendarRow } from './components/CalendarRow/CalendarRow.tsx';
 import { createDate } from '../../utils/date';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ICalendarFilter } from './types/filter.ts';
 import { CalendarData, CalendarDay } from './types/calendar.ts';
 
@@ -25,10 +25,14 @@ export const Calendar = ({ value, onSelect, data }: CalendarProps) => {
         filter,
         firstWeekDayNumber: 2,
     });
-    useEffect(() => {
-        if (selectedDay.monthIndex != filter.month)
-            setFilter({ ...filter, month: selectedDay.monthIndex });
-    }, [selectedDay]);
+
+    const handleClickCeil = useCallback(
+        (day: CalendarDay) => {
+            setSelectedDay(day);
+            if (day.monthIndex !== filter.month) setFilter({ ...filter, month: day.monthIndex });
+        },
+        [filter],
+    );
 
     return (
         <div className={classes.calendar__wrapper}>
@@ -46,7 +50,7 @@ export const Calendar = ({ value, onSelect, data }: CalendarProps) => {
                             <CalendarRow
                                 key={index}
                                 week={week}
-                                onClickCeil={setSelectedDay}
+                                onClickCeil={handleClickCeil}
                                 meta={{ selectedDay, currentDay }}
                             />
                         ))}

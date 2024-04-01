@@ -9,7 +9,6 @@
   margin: 0 5px;
   padding: 10px;
 
-  //animation: ease-in 0.3s appearance-ceil;
   transition: background-color 0.2s ease;
   cursor: pointer;
 
@@ -36,6 +35,8 @@
 .dayNumber{
   display: flex;
   justify-content: flex-end;
+  animation: ease-in 0.3s appearance-ceil;
+
 }
 
 @keyframes appearance-ceil {
