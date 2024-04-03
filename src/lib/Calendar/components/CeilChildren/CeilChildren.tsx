@@ -5,6 +5,7 @@ export interface CeilChildrenProps {
     date: Date;
 }
 export const CeilChildren = memo(({ children, date }: CeilChildrenProps) => {
+    console.debug(date);
     return <>{children}</>;
 });
 CeilChildren.displayName = 'CeilChildren';
