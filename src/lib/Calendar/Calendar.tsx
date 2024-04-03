@@ -4,34 +4,47 @@ import { CalendarHeader } from './components/CalendarHeader/CalendarHeader.tsx';
 import { useCalendarDays } from './hooks/useCalendarDays.ts';
 import { CalendarRow } from './components/CalendarRow/CalendarRow.tsx';
 import { createDate } from '../../utils/date';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ICalendarFilter } from './types/filter.ts';
-import { CalendarData, CalendarDay } from './types/calendar.ts';
+import { CalendarCeilChildren, CalendarDay } from './types/calendar.ts';
 
 export interface CalendarProps {
     value?: Date;
     onSelect?: (value: Date) => void;
-    data?: CalendarData;
+    children?: CalendarCeilChildren;
 }
-export const Calendar = ({ value, onSelect, data }: CalendarProps) => {
+export const Calendar = ({ value, onSelect, children: dataDays }: CalendarProps) => {
     const currentDay = createDate({ date: new Date() });
-    const [selectedDay, setSelectedDay] = useState<CalendarDay>(currentDay);
+    const [selectedDay, setSelectedDay] = useState<CalendarDay | undefined>(
+        value ? createDate({ date: value }) : undefined,
+    );
     const [filter, setFilter] = useState<ICalendarFilter>({
-        year: selectedDay.year,
-        month: selectedDay.monthIndex,
+        year: selectedDay?.year ?? currentDay.year,
+        month: selectedDay?.monthIndex ?? currentDay.monthIndex,
     });
 
     const { calendarMonthWithWeek } = useCalendarDays({
         filter,
         firstWeekDayNumber: 2,
+        dataDays,
     });
 
     const handleClickCeil = useCallback(
         (day: CalendarDay) => {
-            setSelectedDay(day);
-            if (day.monthIndex !== filter.month) setFilter({ ...filter, month: day.monthIndex });
+            if (
+                day.dayNumber === selectedDay?.dayNumber &&
+                day.monthNumber === selectedDay?.monthNumber &&
+                day.year === selectedDay?.year
+            ) {
+                setSelectedDay(undefined);
+            } else {
+                if (day.monthIndex !== filter.month)
+                    setFilter({ ...filter, month: day.monthIndex });
+                setSelectedDay(day);
+                onSelect?.(day.date);
+            }
         },
-        [filter],
+        [filter, selectedDay, onSelect],
     );
 
     return (
@@ -51,7 +64,7 @@ export const Calendar = ({ value, onSelect, data }: CalendarProps) => {
                                 key={index}
                                 week={week}
                                 onClickCeil={handleClickCeil}
-                                meta={{ selectedDay, currentDay }}
+                                meta={{ monthIndex: filter.month, selectedDay, currentDay }} // TODO Вынести стиль в CalendarDay
                             />
                         ))}
                     </tbody>

@@ -7,10 +7,7 @@ interface CalendarFilterProps {
     setFilter?: (filter: { year: number; month: number }) => void;
 }
 export const CalendarFilter = ({ filter, setFilter }: CalendarFilterProps) => {
-    const { yearsInterval, monthsInterval } = useCalendarFilter({
-        year: filter.year,
-        month: filter.month,
-    });
+    const { yearsInterval, monthsInterval } = useCalendarFilter(filter);
 
     return (
         <div className={classes.filter}>

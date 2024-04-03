@@ -18,13 +18,12 @@ export const useCalendarFilter = ({ year }: useCalendarFilterParams) => {
     );
 
     useEffect(() => {
-        if (year !== year)
-            setYearsInterval(
-                getYearsInterval(year).map((year) => ({
-                    value: year,
-                    label: year.toString(),
-                })),
-            );
+        setYearsInterval(
+            getYearsInterval(year).map((year) => ({
+                value: year,
+                label: year.toString(),
+            })),
+        );
     }, [year]);
 
     return {

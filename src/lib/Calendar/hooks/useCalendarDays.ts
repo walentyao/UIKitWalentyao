@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { createMonth, getMonthNumberOfDays } from '../../../utils/date';
+import { createDate, createMonth, getMonthNumberOfDays } from '../../../utils/date';
 import { ICalendarFilter } from '../types/filter.ts';
-import { CalendarDay } from '../types/calendar.ts';
+import { CalendarCeilChildren, CalendarDay } from '../types/calendar.ts';
 
 export type CalendarWeek = CalendarDay[];
 
@@ -9,12 +9,14 @@ export type CalendarMonthWithWeek = CalendarWeek[];
 export interface UseCalendarMonthParams {
     filter: ICalendarFilter;
     firstWeekDayNumber: number;
+    dataDays?: CalendarCeilChildren;
     locale?: string;
 }
 const DAYS_IN_WEEK = 7;
 export const useCalendarDays = ({
     filter,
     firstWeekDayNumber,
+    dataDays,
     locale = 'default',
 }: UseCalendarMonthParams) => {
     const selectedMonth = useMemo(() => {
@@ -80,13 +82,26 @@ export const useCalendarDays = ({
                 dayIndex < (weekIndex + 1) * DAYS_IN_WEEK && dayIndex < calendarDays.length;
                 dayIndex++
             ) {
-                week.push(calendarDays[dayIndex]);
+                if (!dataDays) {
+                    week.push(calendarDays[dayIndex]);
+                } else {
+                    const findDataForDay = dataDays.find((day) => {
+                        const date = createDate({ date: day.props.date });
+                        return (
+                            date.dayNumber === calendarDays[dayIndex].dayNumber &&
+                            date.monthIndex === calendarDays[dayIndex].monthIndex &&
+                            date.year === calendarDays[dayIndex].year
+                        );
+                    });
+
+                    week.push({ ...calendarDays[dayIndex], data: findDataForDay });
+                }
             }
             calendar.push(week);
         }
 
         return calendar;
-    }, [calendarDays]);
+    }, [calendarDays, dataDays]);
 
     return {
         calendarDays,

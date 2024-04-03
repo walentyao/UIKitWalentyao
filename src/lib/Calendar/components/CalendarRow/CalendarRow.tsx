@@ -8,13 +8,13 @@ interface CalendarRowProps {
     children?: React.ReactNode;
     week: CalendarWeek;
     meta: {
-        selectedDay: CalendarDay;
+        monthIndex: number;
+        selectedDay?: CalendarDay;
         currentDay: CalendarDay;
     };
     onClickCeil?: (day: CalendarDay) => void;
 }
 export const CalendarRow = memo(({ week, meta, onClickCeil }: CalendarRowProps) => {
-    console.log(meta);
     return (
         <tr>
             {week.map((day) => {
@@ -23,7 +23,12 @@ export const CalendarRow = memo(({ week, meta, onClickCeil }: CalendarRowProps) 
                         key={day.dayNumber}
                         day={day}
                         onClick={onClickCeil}
-                        styleCeil={getStyleCeil(day, meta.currentDay, meta.selectedDay)}
+                        styleCeil={getStyleCeil(
+                            day,
+                            meta.monthIndex,
+                            meta.currentDay,
+                            meta.selectedDay,
+                        )}
                     />
                 );
             })}
